@@ -2,10 +2,18 @@ package helper
 
 import (
 	"fmt"
+	"net/smtp"
 	"reflect"
 	"strconv"
 	"time"
 )
+
+// 寄送 mail
+func SendMail(user string, password string, host string, port string, msg string, subject string, from string, to []string) error {
+	auth := smtp.PlainAuth("", user, password, host)
+	sub := "subject: " + subject + "\r\n\r\n"
+	return smtp.SendMail(host+":"+port, auth, from, to, []byte(sub+msg))
+}
 
 //返回現在時間 mysql datetime
 //格式:2014-12-21 21:20:32
