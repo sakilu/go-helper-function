@@ -1,12 +1,26 @@
 package helper
 
 import (
+	"crypto/hmac"
+	"crypto/sha1"
+	"encoding/base64"
 	"fmt"
 	"net/smtp"
 	"reflect"
 	"strconv"
 	"time"
 )
+
+func Base64Encode(message string) string {
+	return base64.StdEncoding.EncodeToString([]byte(message))
+}
+
+func ToHmacSha1(message string, secret string) string {
+	key := []byte(secret)
+	h := hmac.New(sha1.New, key)
+	h.Write([]byte(message))
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
+}
 
 // 寄送 mail
 func SendMail(user string, password string, host string, port string, msg string, subject string, from string, to []string) error {
@@ -26,7 +40,18 @@ func NowTime() string {
 	return fmt.Sprintf("%4d-%02d-%02d %02d:%02d:%02d", y, m, d, H, i, se)
 }
 
-// 轉換成int64
+//返回現在時間 mysql datetime
+//格式:2014-12-21 21:20:32
+func NowTime8601() string {
+	t := time.Now()
+	y, m, d := t.Date()
+	H := t.Hour()
+	i := t.Minute()
+	se := t.Second()
+	return fmt.Sprintf("%4d-%02d-%02dT%02d:%02d:%02d.000Z", y, m, d, H, i, se)
+}
+
+// 轉換成int
 func ToInt(i interface{}) int {
 	kind := reflect.TypeOf(i).Kind()
 	if kind == reflect.String {
