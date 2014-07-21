@@ -8,8 +8,17 @@ import (
 	"net/smtp"
 	"reflect"
 	"strconv"
+	"strings"
 	"time"
 )
+
+func Log(a ...interface{}) {
+	fmt.Println(a)
+}
+
+func JoinInt(ints []int, glue string) string {
+	return fmt.Sprintf(strings.Trim(strings.Replace(fmt.Sprintf("%d", ints), " ", glue, -1), "[]"))
+}
 
 func Base64Encode(message string) string {
 	return base64.StdEncoding.EncodeToString([]byte(message))
