@@ -19,7 +19,7 @@ func Log(a ...interface{}) {
 
 func ParseSearchString(source string) string {
 	re := regexp.MustCompile("\\s+")
-	return re.ReplaceAllString(source, "* ")
+	return re.ReplaceAllString(strings.Trim(source, " ")+" ", "* ")
 }
 
 func JoinInt(ints []int, glue string) string {
