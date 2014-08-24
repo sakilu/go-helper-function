@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/smtp"
 	"reflect"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -14,6 +15,11 @@ import (
 
 func Log(a ...interface{}) {
 	fmt.Println(a)
+}
+
+func ParseSearchString(source string) string {
+	re := regexp.MustCompile("\\s+")
+	return re.ReplaceAllString(source, "* ")
 }
 
 func JoinInt(ints []int, glue string) string {
