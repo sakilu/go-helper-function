@@ -5,6 +5,7 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"fmt"
+	"github.com/streadway/simpleuuid"
 	"net/smtp"
 	"reflect"
 	"regexp"
@@ -12,6 +13,11 @@ import (
 	"strings"
 	"time"
 )
+
+func Uniqid() string {
+	uuid, _ := simpleuuid.NewTime(time.Now())
+	return uuid.String()
+}
 
 func Log(a ...interface{}) {
 	fmt.Println(a)
