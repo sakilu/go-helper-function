@@ -13,7 +13,12 @@ func BenchmarkLog(b *testing.B) {
 }
 
 func TestUniqid(t *testing.T) {
-
+	for i := 0; i < 10; i++ {
+		s := Uniqid()
+		if len(s) != 36 {
+			t.Error("len(s) != 36", ", s=", s)
+		}
+	}
 }
 
 func BenchmarkUniqid(b *testing.B) {
@@ -23,7 +28,26 @@ func BenchmarkUniqid(b *testing.B) {
 }
 
 func TestParseSearchString(t *testing.T) {
-
+	source := "hello world!"
+	s := ParseSearchString(source)
+	if s != "hello* world!*" {
+		t.Error(s, " != ", "hello* world!*")
+	}
+	source = "a b c d e"
+	s = ParseSearchString(source)
+	if s != "a* b* c* d* e*" {
+		t.Error(s, " != ", "a* b* c* d* e*")
+	}
+	source = "a   b c  d  e "
+	s = ParseSearchString(source)
+	if s != "a* b* c* d* e*" {
+		t.Error(s, " != ", "a* b* c* d* e*")
+	}
+	source = ""
+	s = ParseSearchString(source)
+	if s != "" {
+		t.Error(s, " != ", "")
+	}
 }
 
 func TestJoinInt(t *testing.T) {

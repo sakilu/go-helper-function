@@ -24,8 +24,12 @@ func Log(a ...interface{}) {
 }
 
 func ParseSearchString(source string) string {
+	s := strings.Trim(source, " ")
+	if s != "" {
+		return ""
+	}
 	re := regexp.MustCompile("\\s+")
-	return re.ReplaceAllString(strings.Trim(source, " ")+" ", "* ")
+	return strings.Trim(re.ReplaceAllString(strings.Trim(source, " ")+" ", "* "), " ")
 }
 
 func JoinInt(ints []int, glue string) string {
